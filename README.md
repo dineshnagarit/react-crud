@@ -48,16 +48,12 @@ In the project directory, you can run:
 npm install
 # or
 yarn install
-# and then
+```
+
+
+### Run 
+```
 node index.js
-```
-
-
-### Compiles 
-```
-npm start
-# or
-yarn start
 ```
 
 Service will be active at [http://localhost:8080]

@@ -4,6 +4,7 @@ import { styles } from "../css-common"
 import { TextField, Button, withStyles } from "@material-ui/core";
 
 class Book extends Component {
+    
     constructor(props) {
         super(props);
         this.onChangeTitle = this.onChangeTitle.bind(this);
@@ -14,7 +15,7 @@ class Book extends Component {
         this.updatePublished = this.updatePublished.bind(this);
         this.updateBook = this.updateBook.bind(this);
         this.deleteBook = this.deleteBook.bind(this);
-
+        let documentId=null;
         this.state = {
             currentBook: {
                 id: null,
@@ -32,6 +33,7 @@ class Book extends Component {
 
     componentDidMount() {
         this.getBook(this.props.match.params.id);
+        this.documentId = this.props.match.params.id;
     }
 
     onChangeTitle(e) {
@@ -85,15 +87,17 @@ class Book extends Component {
     }
 
     getBook(id) {
-        console.log("get book function called",id);
         BookDataService.get(id)
         .then(response => {
             console.log("get specific book",response.data);
             response.data = (response.data!=undefined && response.data.data!=undefined)?response.data.data:response.data;
+
+            console.log("before setState",response.data);
+            
             this.setState({
                 currentBook: response.data
             });  
-            console.log(response.data);
+           
         })
         .catch(e => {
             console.log(e);
@@ -124,8 +128,10 @@ class Book extends Component {
     }
 
     updateBook() {
+
+        console.log("this.state.currentBook",this.state.currentBook);
         BookDataService.update(
-            this.state.currentBook.id,
+            this.documentId,
             this.state.currentBook
         )
             .then(response => {
